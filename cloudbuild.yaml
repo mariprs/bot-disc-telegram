@@ -1,10 +1,32 @@
+timeout: "900s"
+
 steps:
-  - name: "python"
+  - name: "python:3.10"
     entrypoint: "bash"
+    secretEnv:
+      - API_ID
+      - API_HASH
+      - DISCORD_WEBHOOK_URL
+      - PHONE
+      - KEYWORDS
+      - CHAT_ID
     args:
       - "-c"
       - |
-        pip install -r requirements.txt
+        pip install -r requirements_build.txt
         python src/telegram_bot.py
 
-timeout: "900s"
+availableSecrets:
+  secretManager:
+    - env: API_ID
+      versionName: projects/your_project_id/secrets/API_ID/versions/latest
+    - env: API_HASH
+      versionName: projects/your_project_id/secrets/API_HASH/versions/latest
+    - env: DISCORD_WEBHOOK_URL
+      versionName: projects/your_project_id/secrets/DISCORD_WEBHOOK_URL/versions/latest
+    - env: PHONE
+      versionName: projects/your_project_id/secrets/PHONE/versions/latest
+    - env: KEYWORDS
+      versionName: projects/your_project_id/secrets/KEYWORDS/versions/latest
+    - env: CHAT_ID
+      versionName: projects/your_project_id/secrets/CHAT_ID/versions/latest
