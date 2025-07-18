@@ -63,7 +63,7 @@ Para exportar para csv, basta rodar o arquivo `src/db/exportar_para_csv.py`.
 Este repositório inclui um `cloudbuild.yaml` para facilitar o deploy no Cloud Build do GCP.
 O repositório contém dois arquivos de requirements.
 O primeiro, `src/requirements.txt` possui tudo que você pode precisar localmente.
-O segundo, `requirements-deploy.txt` é usado exclusivamente para o deploy. Como criei apenas o .yaml com a intenção de testar o projeto principal, evitei dependências desnecessárias associadas a outras features para consumir menos tempo e recursos em Cloud.
+O segundo, `requirements-build.txt` é usado exclusivamente para o deploy. Como criei apenas o .yaml com a intenção de testar o projeto principal, evitei dependências desnecessárias associadas a outras features para consumir menos tempo e recursos em Cloud.
 Para testar localmente, estando autenticado no gcloud (`gcloud auth login`) e com o projeto ativo no GCP, com o Cloud Build ativo e autorização de admin no bucket do projeto, use:
 
 ```bash
@@ -71,7 +71,7 @@ gcloud builds submit . --config=cloudbuild.yaml
 ```
 
 Para configurar as variáveis, é necessário rodar
-**Importante**: sem as variáveis de ambiente configuradas (seja através de `gcloud secrets` ou Dockerfile) e e seu project_id, o `cloudbuild.yaml` não funcionará. É necessário validar no Secret Manager do GCP e no próprio gerenciador dar permissão ao user do Cloud Build. 
+**Importante**: sem as variáveis de ambiente configuradas (seja através de `gcloud secrets` ou Dockerfile) e e seu project_id, o `cloudbuild.yaml` não funcionará. É necessário validar no Secret Manager do GCP e no próprio gerenciador dar permissão ao user do Cloud Build.
 Será necessário armazenar o token recebido pelo telegram no .env para que a my_session.session seja iniciada e a build rode corretamente.
 
 ## 🎥 Demonstração básica
