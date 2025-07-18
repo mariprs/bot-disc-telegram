@@ -75,6 +75,3 @@ def alerta_ocr(client, message):
     except Exception as e:  
         print(f"Erro ao processar imagem: {e}")
 app.run()
-
-# to do: film for readme
-# to do: check if possible to send over image to discord
