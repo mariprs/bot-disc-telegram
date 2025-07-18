@@ -17,14 +17,14 @@ chat_id = int(os.getenv("CHAT_ID"))
 discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
 keywords = os.getenv("KEYWORDS").split(",")
 
-app = Client("my_session")
+app = Client("my_session", api_id=api_id, api_hash=api_hash, phone_number=phone)
 with app:
     print(" Sessão iniciada!")
 
 @app.on_message(filters.text & filters.chat(chat_id)) 
 # para pegar o chat_id, descomente a função abaixo
-# def get_chat_id(client, message):
-#     print("chat_id:", message.chat.id)
+def get_chat_id(client, message):
+    print("chat_id:", message.chat.id)
 
 def alerta_discord(message):
     texto = message.text.lower()
@@ -48,7 +48,17 @@ def alerta_ocr(client, message):
         print(f"texto extraído: {texto}")
 
         if any (palavra in texto for palavra in keywords):
-            conteudo = f"**Keyword encontrada em imagem:**\n ```{texto}```\n**De:** {message.from_user.first_name if message.from_user else 'User desconhecido'}"
+            if message.from_user:
+                sender = f"{message.from_user.first_name or ''} {message.from_user.last_name or ''}".strip()
+                sender_username = f"@{message.from_user.username}" if message.from_user.username else "Desconhecido"
+                sender_is_bot = "Sim" if message.from_user.is_bot else "Não"
+                conteudo = (
+                    f"**Keyword encontrada em imagem:**\n```{texto}```\n"
+                    f"**De:** {sender} ({sender_username}) - Bot: {sender_is_bot}"
+                )
+            else:
+                conteudo = f"**Keyword encontrada em imagem:**\n```{texto}```\n**De:** Usuário desconhecido"
+
             data = {"content": conteudo}
             response = requests.post(discord_webhook, json=data)
             print("Alerta enviado para o Discord")
