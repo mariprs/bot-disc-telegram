@@ -8,7 +8,10 @@ Este projeto é um bot em Python que monitora mensagens em tempo real no Telegra
 - Detecção de palavras-chave sensíveis.
 - Envio de alertas formatados no Discord via webhook.
 - Suporte a OCR (extração de texto de imagens enviadas no chat).
-
+- Saving dos alertas em banco de dados local (`SQLite`).
+- Criação de `.csv` para data analysis (extra!).
+- Arquivo `cloudbuild.yaml` para deploy via Google Cloud Build.
+  
 ## ⚙️ Configuração
 
 1. Clone o repositório
@@ -18,16 +21,7 @@ Este projeto é um bot em Python que monitora mensagens em tempo real no Telegra
 pip install -r requirements.txt
 ```
 
-3. Crie um arquivo `.env` com o seguinte conteúdo:
-
-```env
-API_ID=...
-API_HASH=...
-PHONE=+55...
-CHAT_ID=...
-DISCORD_WEBHOOK_URL=...
-KEYWORDS=senha,cpf,rg,cvv,código de segurança,agência,token,api,acesso,login,deleta depois,isso some,não salva,endereço,cep
-```
+3. Crie um arquivo `.env` com conteúdo de acordo com o arquivo .env.example
 
 4. Certifique-se de ter o Tesseract OCR instalado e com o idioma `por` disponível.
 
@@ -58,17 +52,20 @@ Há um arquivo de teste para verificar se o OCR está funcionando corretamente c
 python src/test/test_ocr.py
 ```
 
-## Dificuldades e Soluções
+## 🎥 Demonstração em vídeo
+
+Veja a demonstração básica do bot em ação:
+
+📽️ [Clique aqui para assistir ao vídeo](./src/assets/demonstracao_funcionalidade_basica.mp4)
+
+## Algumas das minhas dificuldades e soluções
 
 - **Erro de path no pytesseract**: Verifique o caminho correto para o executável do Tesseract. Use barra invertida `\` no Windows.
 - **Erro ao carregar idioma 'por'**: Baixe o arquivo `por.traineddata` do [repositório oficial](https://github.com/tesseract-ocr/tessdata) e coloque na pasta `tessdata`.
 - **Webhook não envia alerta**: Verifique se o nome da variável no `.env` está igual no código (`DISCORD_WEBHOOK_URL`).
 - **Mensagem de erro 'NoneType is not iterable'**: Ocorre quando `KEYWORDS` está mal formatado. Corrija no `.env` como uma string simples separada por vírgulas (sem aspas).
 
-## To Do
+## Ideias para futura implementação
 
-- Salvar mensagens e remetentes em banco de dados
-- Criar `cloudbuild.yaml` para deploy automático no GCP
-- Gravar vídeo demonstrativo
-- Implementar envio da imagem no alerta do Discord
 - Adicionar prioridades visuais baseadas nas palavras-chave
+- Implementar testes unitários para garantir que, de acordo com o aumento de complexidade do projeto, tudo estará funcionando conforme o esperado.
